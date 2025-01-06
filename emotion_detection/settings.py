@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'user_auth',
+    'prediction'
 ]
 
 MIDDLEWARE = [
@@ -79,6 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'mydatabase',  
+        'ENFORCE_SCHEMA': False
     }
 }
 
@@ -133,3 +136,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+
+AUTH_USER_MODEL = 'user_auth.CustomUser'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
