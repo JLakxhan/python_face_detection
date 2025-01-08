@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion and Stress Detection</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navdiv">
+            <div class="logo"><a href="#">EmotionDetection</a> </div>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/dashboard/">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>RealTime Emotion and Stress Detection Dashboard</h1>
+        <div class="content">
+            <div id="data-table" class="data-table">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Shift Start Time</th>
+                            <th>End Time</th>
+                            <th>Average Emotion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr>
+                            <td>JohnDoe</td>
+                            <td>2025-01-08 09:00:00</td>
+                            <td>2025-01-08 17:00:00</td>
+                            <td>Happy</td>
+                        </tr>
+                        <tr>
+                            <td>JaneSmith</td>
+                            <td>2025-01-08 10:00:00</td>
+                            <td>2025-01-08 18:00:00</td>
+                            <td>Neutral</td>
+                        </tr>
+                        <tr>
+                            <td>MikeBrown</td>
+                            <td>2025-01-08 11:00:00</td>
+                            <td>2025-01-08 19:00:00</td>
+                            <td>Stressed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const csrfToken = '{{ csrf_token }}';
+    </script>
+    <script src="{% static 'js/home.js' %}"></script>
+</body>
+</html>

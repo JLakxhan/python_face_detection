@@ -21,34 +21,34 @@ loginBtn.addEventListener('click', () => {
 });
 
 // Handle login form submission
-loginForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Prevent default form submission
+// loginForm.addEventListener('submit', (e) => {
+//     e.preventDefault(); // Prevent default form submission
 
-    const email = loginForm.querySelector('[name="email"]').value;
-    const password = loginForm.querySelector('[name="password"]').value;
+//     const email = loginForm.querySelector('[name="email"]').value;
+//     const password = loginForm.querySelector('[name="password"]').value;
 
-    // Make a request to Django to authenticate the user
-    fetch('/login/', {
-        method: 'POST',
-        body: new URLSearchParams({
-            'email': email,
-            'password': password,
-        }),
-        headers: {
-            'X-CSRFToken': document.querySelector('[name="csrfmiddlewaretoken"]').value,
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // If login is successful, redirect to home page
-            window.location.href = '/home/';
-        } else {
-            alert('Invalid credentials. Please try again.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred during login. Please try again.');
-    });
-});
+//     // Make a request to Django to authenticate the user
+//     fetch('/login/', {
+//         method: 'POST',
+//         body: new URLSearchParams({
+//             'email': email,
+//             'password': password,
+//         }),
+//         headers: {
+//             'X-CSRFToken': document.querySelector('[name="csrfmiddlewaretoken"]').value,
+//         },
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.success) {
+//             // If login is successful, redirect to home page
+//             window.location.href = '/home/';
+//         } else {
+//             alert('Invalid credentials. Please try again.');
+//         }
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//         alert('An error occurred during login. Please try again.');
+//     });
+// });

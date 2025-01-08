@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from user_auth.mongodb import MONGO_USER_COLLECTION
+from .mongodb import MONGO_SHIFT_COLLECTION
 from bson.objectid import ObjectId  # Optional, for MongoDB ID handling
 from django.http import JsonResponse
 import requests
-from django.http import JsonResponse
+import datetime
 from .models import CustomUser
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 # Registration View
 def register_view(request):
@@ -59,11 +61,11 @@ def login_view(request):
         #     messages.error(request, "Invalid email or password!")
     return render(request, "login.html")
 
- 
 
-# Home Page View
 def home_view(request):
     return render(request, "home.html")
 
+def dashboard_view(request):
+    return render(request, "dashboard.html")
 
 

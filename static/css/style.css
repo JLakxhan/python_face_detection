@@ -38,7 +38,7 @@ h1 {
 button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #afa74c;
+    background-color: #4c86af;
     color: white;
     border: none;
     border-radius: 5px;
@@ -245,6 +245,8 @@ form{
     border: 2px solid #fff;
     box-shadow: none;
 }
+
+
 
 @media screen and (max-width:650px) {
     .container{

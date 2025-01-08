@@ -6,8 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotion Detection</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="navdiv">
+            <div class="logo"><a href="#">EmotionDetection</a> </div>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/dashboard/">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <div class="container">
         <h1>Real-Time Emotion Detection</h1>
         <div class="content">
@@ -15,13 +26,18 @@
             <button id="start-btn">Start Shift</button>
             <button id="end-btn">End Shift</button>
             <div id="camera-feed">
-                <video id="video" autoplay></video>
+                <video id="video" autoplay hidden></video>
             </div>
             <div id="emotion-output">
                 <p>Current Emotion: <span id="emotion-text">N/A</span></p>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        const csrfToken = '{{ csrf_token }}';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="{% static 'js/home.js' %}"></script>
+    
 </body>
 </html>
