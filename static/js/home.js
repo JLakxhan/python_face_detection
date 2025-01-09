@@ -3,7 +3,7 @@ const emotionText = document.getElementById("emotion-text");
 const shiftStatusText = document.getElementById("shift-status");
 const startButton = document.getElementById("start-btn");
 const endShiftButton = document.getElementById("end-btn");
-const SearchShiftButton = document.getElementById("search-btn");
+const LogoutButton = document.getElementById("logot-btn");
 
 
 let isDetecting = false; // Flag to track if emotion detection is started
@@ -23,6 +23,52 @@ const showToast = (message, type = "success") => {
         backgroundColor: type === "success" ? "green" : "red",
         stopOnFocus: true,
     }).showToast();
+};
+
+const sendAveragePredictions = () => {
+    const formData = new FormData();
+    formData.append("shift_id", shiftId);
+
+    fetch("/shift/avg/", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": csrfToken,
+        },
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.code === 1) {
+                showToast(data.message, "success");
+
+                        // Check if the browser supports notifications
+                if (Notification.permission === "granted") {
+                    // Create and show the notification
+                    new Notification("Work Management System", {
+                        body: data.message,
+                        icon: "../../assets/noti.png"  // Optional: icon for the notification
+                    });
+                } else if (Notification.permission !== "denied") {
+                    // Request permission from the user if not granted yet
+                    Notification.requestPermission().then(permission => {
+                        if (permission === "granted") {
+                            // Create and show the notification
+                            new Notification("Work Management System", {
+                                body: data.message,
+                                icon: "../../assets/danger.png"  // Optional: icon for the notification
+                            });
+                        }
+                    });
+                }
+            } else {
+                showToast("Error saving average predictions: " + data.message, "error");
+            }
+        })
+        .catch((error) => {
+            console.error("Error saving average predictions:", error);
+            showToast("Connection error while saving average predictions.", "error");
+        });
+
 };
 
 startButton.addEventListener("click", () => {
@@ -147,147 +193,8 @@ endShiftButton.addEventListener("click", () => {
         });
 });
 
-SearchShiftButton.addEventListener("click",()=>{
-    const formData = new FormData();
-    formData.append("date",  document.getElementById("search-date").value);
-
-    fetch("/shift/search/", {
-        method: "POST",
-        headers: { "X-CSRFToken": csrfToken },
-        body: formData,
-    })
-    .then((response) => response.json())
-        .then((data) => {
-            if (data.code == 1) {
-                let rows = '';  // Initialize rows before the loop
-
-                data.data.forEach(addRow);
-                
-                function addRow(item) { 
-                    rows += "<tr>";
-                    rows += "<td>" + item.id + "</td>";
-                    rows += "<td>" +addTimeAndFormat(item.start_time) + "</td>";
-                    rows += "<td>" + (item.end_time != null ? addTimeAndFormat(item.end_time) : '') + "</td>";
-                    rows += "</tr>";
-                }
-                document.getElementById('table-body').innerHTML = rows;
-					// $('#tableData').DataTable();
-            } else {
-                showToast(data.message, "error");
-            }
-        })
-        .catch((error) => {
-            console.error("Fetch Error:", error);
-            showToast("Connection error. Please check backend.", "error");
-        });
+LogoutButton.addEventListener("click", () => {
+    window.location.href = "/login";  
 });
-
-const sendAveragePredictions = () => {
-    const formData = new FormData();
-    formData.append("shift_id", shiftId);
-
-    fetch("/shift/avg/", {
-        method: "POST",
-        headers: {
-            "X-CSRFToken": csrfToken,
-        },
-        body: formData,
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.code === 1) {
-                showToast(data.message, "success");
-
-                        // Check if the browser supports notifications
-                if (Notification.permission === "granted") {
-                    // Create and show the notification
-                    new Notification("Work Management System", {
-                        body: data.message,
-                        icon: "/path-to-your-icon.png"  // Optional: icon for the notification
-                    });
-                } else if (Notification.permission !== "denied") {
-                    // Request permission from the user if not granted yet
-                    Notification.requestPermission().then(permission => {
-                        if (permission === "granted") {
-                            // Create and show the notification
-                            new Notification("Work Management System", {
-                                body: data.message,
-                                icon: "/path-to-your-icon.png"  // Optional: icon for the notification
-                            });
-                        }
-                    });
-                }
-            } else {
-                showToast("Error saving average predictions: " + data.message, "error");
-            }
-        })
-        .catch((error) => {
-            console.error("Error saving average predictions:", error);
-            showToast("Connection error while saving average predictions.", "error");
-        });
-
-};
-
-// document.addEventListener("DOMContentLoaded", () => {
-//     fetch("/shift/status/", {
-//         method: "GET",
-//         headers: { "X-CSRFToken": csrfToken },
-//     })
-//         .then((response) => response.json())
-//         .then((data) => {
-//             if (data.active) {
-//                 shiftId = data.shift_id;
-//                 shiftStatusText.textContent = `Shift started at ${data.start_time}`;
-//             } else {
-//                 shiftStatusText.textContent = "Click the button below to start detecting emotions in real-time.";
-//             }
-//         })
-//         .catch((error) => {
-//             console.error("Error checking shift status:", error);
-//             shiftStatusText.textContent = "Error fetching shift status. Please try again.";
-//         });
-// });
-
-
-
-function addTimeAndFormat(utcDateStr) {
-    if (!utcDateStr) return ''; // Handle null or empty times
-    
-    const utcDate = new Date(utcDateStr); // Parse the UTC date
-    // Check if the input is a valid date
-    if (isNaN(utcDate.getTime())) {
-        return ''; // Return empty if the date is invalid
-    }
-    
-    // Add 5 hours and 30 minutes to the date
-    utcDate.setHours(utcDate.getHours() + 5); // Add 5 hours
-    utcDate.setMinutes(utcDate.getMinutes() + 30); // Add 30 minutes
-    
-    // Format the date to 'Y-m-d H:i:s' in the local timezone (Asia/Colombo)
-    const options = {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false, // Use 24-hour format
-    };
-
-    // Use toLocaleString with the Asia/Colombo timezone
-    const localTime = utcDate.toLocaleString('en-GB', {
-        ...options,
-        timeZone: 'Asia/Colombo', // Force timezone to Asia/Colombo
-    });
-
-    // Format the result to 'Y-m-d H:i:s'
-    const [datePart, timePart] = localTime.split(', ');
-
-    // Change '/' to '-' and reformat to 'Y-m-d' (ISO format)
-    const formattedDate = datePart.split('/').reverse().join('-');  // Reverse and join with '-'
-
-    // Join date and time parts with a space
-    return `${formattedDate} ${timePart}`;
-}
 
 

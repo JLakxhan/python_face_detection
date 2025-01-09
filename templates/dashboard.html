@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotion and Stress Detection</title>
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dash.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
     <nav class="navbar">
@@ -13,16 +14,29 @@
             <div class="logo"><a href="#">EmotionDetection</a> </div>
             <ul>
                 <li><a href="/home">Home</a></li>
-                <li><a href="/dashboard/">Dashboard</a></li>
+                <li><a href="/dashboard/">Shifts</a></li>
+                {% if request.user.is_superuser %}
                 <li><a href="/userboard/">UserTable</a></li>
+                {% endif %}
+                <button id="logot-btn" class="button-btn"><a>Logout</a></button>
             </ul>
         </div>
     </nav>
     <div class="container">
-        <h1>Shift Dashboard</h1>
+        <h1>Shift</h1>
         <div class="content">
-            <input type="date"  id="search-date"/>
-            <button id="search-btn">Search</button>
+            
+            <div class="group">
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                    <g>
+                        <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                    </g>
+                </svg>
+                <input id="search-date" placeholder="Search" type="date" class="input">
+                <button id="search-btn" class="button">Search</button>
+            </div>
+            <!-- <input type="date"  id="search-date"/> -->
+            <!-- <button id="search-btn" class="button">Search</button> -->
             <div id="data-table" class="data-table">
                 
                 <table border="1">
@@ -42,6 +56,7 @@
     <script type="text/javascript">
         const csrfToken = '{{ csrf_token }}';
     </script>
-    <script src="{% static 'js/home.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="{% static 'js/dash.js' %}"></script>
 </body>
 </html>

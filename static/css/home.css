@@ -1,13 +1,20 @@
+
 body {
   background: #121212;
   padding: 0;
 }
 
+
 .navbar {
-  background: #10538e;
-  font-family: Cambria;
+  background: #a29f9f;
+  font-family: sans-serif;
+  height: auto;
   padding-right: 15px;
   padding-left: 15px;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: 400;
+  /* border-bottom: 1px solid #E2E8F0; */
 }
 .navdiv {
   display: flex;
@@ -35,7 +42,7 @@ li a {
 }
 
 li a:hover {
-  color: rgb(255, 255, 255);
+  color: #00a97f;
 }
 .container {
   text-align: center;
@@ -54,14 +61,41 @@ p {
   font-family: Cambria;
 }
 
+
+.form-control {
+  height: 40px;
+  line-height: 28px;
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #D9E8D8;
+  color: #0d0c22;
+  font-size: 16px;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none; /* Removes default browser styles */
+}
+
+.form-control:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.form-control-lg {
+  font-size: 18px;
+  height: 50px;
+}
+
+#roleFilter {
+  cursor: pointer;
+  width: 100%; /* Adjust width if needed */
+  max-width: 250px; /* Add a maximum width for better responsiveness */
+  margin: 10px 0; /* Add some margin for spacing */
+}
+
+
 button {
-  /* padding: 10px 20px;
-    font-size: 16px;
-    background-color: #0d1e73;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer; */
   --color: #00a97f;
   padding: 0.8em 1.7em;
   background-color: transparent;
@@ -116,6 +150,40 @@ button {
 .button:active {
   filter: brightness(0.8);
 }
+
+/* General Button Styles */
+button.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  gap: 1.5rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Specific Styles for Warning Button */
+button.btn-warning {
+  background-color: #ffc107;
+  color: #000;
+}
+
+button.btn-warning:hover {
+  background-color: #e0a800;
+  color: #fff;
+}
+
+/* Specific Styles for Danger Button */
+button.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+button.btn-danger:hover {
+  background-color: #bd2130;
+  color: #fff;
+}
+
 
 /* button:hover {
     background-color: #11d7d7;
@@ -180,4 +248,88 @@ video {
 
 .data-table tr:hover {
   background-color: #ddd; /* Highlight row on hover */
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 70px;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 400px; /* Adjust width as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content label {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.modal-content input, 
+.modal-content select, 
+.modal-content button {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.modal-content button {
+  cursor: pointer;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  transition: background 0.3s;
+}
+
+.modal-content button:hover {
+  background: #0056b3;
+}
+
+.modal-content button:last-child {
+  background: #dc3545;
+}
+
+.modal-content button:last-child:hover {
+  background: #a71d2a;
+}
+
+.button-btn{
+  background-color: #00a97f;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.button-btn:hover{
+  background-color: #dc0202;
+}
+
+.button-btn a{
+  color: wheat;
+  font-weight: 400;
 }

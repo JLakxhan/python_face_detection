@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UserTable</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
     <nav class="navbar">
@@ -13,8 +14,11 @@
             <div class="logo"><a href="#">EmotionDetection</a> </div>
             <ul>
                 <li><a href="/home">Home</a></li>
-                <li><a href="/dashboard/">Dashboard</a></li>
+                <li><a href="/dashboard/">Shifts</a></li>
+                {% if request.user.is_superuser %}
                 <li><a href="/userboard/">UserTable</a></li>
+                {% endif %}
+                <button id="logot-btn" class="button-btn"><a>Logout</a></button>
             </ul>
         </div>
     </nav>
@@ -26,7 +30,7 @@
                 <option value="1">Admin</option>
                 <option value="0">User</option>
             </select> 
-            <button id="search-user-btn">Search</button>
+            <button id="search-user-btn" class="button">Search</button>
             <div id="data-table" class="data-table">               
                 <table border="1">
                     <thead>
@@ -45,9 +49,48 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Edit User</h3>
+            <form id="editUserForm">
+                <input type="hidden" id="editUserId">
+                <label for="editEmail">Email:</label>
+                <input type="email" id="editEmail" required>
+                <label for="editFname">First Name:</label>
+                <input type="text" id="editFname" required>
+                <label for="editLname">Last Name:</label>
+                <input type="text" id="editLname" required>
+                <label for="editRole">Role:</label>
+                <select id="editRole">
+                    <option value="1">Admin</option>
+                    <option value="0">User</option>
+                </select>
+                <button type="button" onclick="submitEditUser()">OK</button>
+                <button type="button" onclick="closeModal('editModal')">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div id="resetModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Reset Password</h3>
+            <form id="resetPasswordForm">
+                <input type="hidden" id="resetUserId">
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" required>
+                <button type="button" onclick="submitResetPassword()">OK</button>
+                <button type="button" onclick="closeModal('resetModal')">Cancel</button>
+            </form>
+        </div>
+    </div>
+
     <script type="text/javascript">
         const csrfToken = '{{ csrf_token }}';
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="{% static 'js/user.js' %}"></script>
 </body>
 </html>

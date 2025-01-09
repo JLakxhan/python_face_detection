@@ -5,6 +5,19 @@ const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
 const homePage = document.querySelector('.home');  // Assuming you have a home element for the home page
 
+const showToast = (message, type = "success") => {
+    Toastify({
+        text: message,
+        duration: 6000,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        backgroundColor: type === "success" ? "green" : "red",
+        stopOnFocus: true,
+    }).showToast();
+};
+
+
 // Show login form on page load
 window.addEventListener('load', () => {
     container.classList.remove('active'); // Ensure the login form is shown on load
@@ -17,38 +30,9 @@ registerBtn.addEventListener('click', () => {
 });
 
 loginBtn.addEventListener('click', () => {
-    container.classList.remove('active'); // Show login form
+    container.classList.remove('active'); 
+    
 });
 
-// Handle login form submission
-// loginForm.addEventListener('submit', (e) => {
-//     e.preventDefault(); // Prevent default form submission
 
-//     const email = loginForm.querySelector('[name="email"]').value;
-//     const password = loginForm.querySelector('[name="password"]').value;
 
-//     // Make a request to Django to authenticate the user
-//     fetch('/login/', {
-//         method: 'POST',
-//         body: new URLSearchParams({
-//             'email': email,
-//             'password': password,
-//         }),
-//         headers: {
-//             'X-CSRFToken': document.querySelector('[name="csrfmiddlewaretoken"]').value,
-//         },
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         if (data.success) {
-//             // If login is successful, redirect to home page
-//             window.location.href = '/home/';
-//         } else {
-//             alert('Invalid credentials. Please try again.');
-//         }
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//         alert('An error occurred during login. Please try again.');
-//     });
-// });

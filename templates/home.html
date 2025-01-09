@@ -14,8 +14,11 @@
             <div class="logo"><a href="#">EmotionDetection</a> </div>
             <ul>
                 <li><a href="/home">Home</a></li>
-                <li><a href="/dashboard/">Dashboard</a></li>
+                <li><a href="/dashboard/">Shifts</a></li>
+                {% if request.user.is_superuser %}
                 <li><a href="/userboard/">UserTable</a></li>
+                {% endif %}
+                <button id="logot-btn" class="button-btn"><a>Logout</a></button>
             </ul>
         </div>
     </nav>
@@ -24,7 +27,7 @@
         <h1>Real-Time Emotion Detection</h1>
         <div class="content">
             <p id="shift-status">Click the button below to start detecting emotions in real-time.</p>
-            <button id="start-btn">Start Shift</button>
+            <button id="start-btn" class="button">Start Shift</button>
             <button id="end-btn" class="button">End Shift</button>
             <div id="camera-feed">
                 <video id="video" autoplay hidden></video>

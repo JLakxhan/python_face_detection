@@ -1,4 +1,5 @@
 const SearchUserButton = document.getElementById("search-user-btn");
+const LogoutButton = document.getElementById("logot-btn");
 
 const showToast = (message, type = "success") => {
     Toastify({
@@ -11,6 +12,85 @@ const showToast = (message, type = "success") => {
         stopOnFocus: true,
     }).showToast();
 };
+
+LogoutButton.addEventListener("click", () => {
+    window.location.href = "/login";  
+});
+
+// Function to open a modal
+function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'block';
+}
+
+// Function to close a modal
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// Set data in Edit Modal
+function setEditModel(id, username, email, first_name, last_name, is_superuser) {
+    document.getElementById('editUserId').value = id;
+    document.getElementById('editEmail').value = email;
+    document.getElementById('editFname').value = first_name;
+    document.getElementById('editLname').value = last_name;
+    document.getElementById('editRole').value = is_superuser;
+    openModal('editModal');
+}
+
+// Set data in Reset Modal
+function setPasswordModel(id, username) {
+    document.getElementById('resetUserId').value = id;
+    openModal('resetModal');
+}
+
+// Submit edited user data
+function submitEditUser() {
+    const formData = new FormData();
+    formData.append('id', document.getElementById('editUserId').value);
+    formData.append('email', document.getElementById('editEmail').value);
+    formData.append('fname', document.getElementById('editFname').value);
+    formData.append('lname', document.getElementById('editLname').value);
+    formData.append('role', document.getElementById('editRole').value);
+
+    fetch("/user/edit/", {
+        method: "POST",
+        headers: { "X-CSRFToken": csrfToken },
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === 1) {
+            showToast(data.data);
+            closeModal('editModal');
+            // Refresh the table data
+            document.getElementById('search-user-btn').click();
+        } else {
+            showToast(data.data, "error");
+        }
+    });
+}
+
+// Submit reset password data
+function submitResetPassword() {
+    const formData = new FormData();
+    formData.append('id', document.getElementById('resetUserId').value);
+    formData.append('password', document.getElementById('newPassword').value);
+
+    fetch("/user/reset/", {
+        method: "POST",
+        headers: { "X-CSRFToken": csrfToken },
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === 1) {
+            showToast(data.data);
+            closeModal('resetModal');
+        } else {
+            showToast(data.data, "error");
+        }
+    });
+}
 
 SearchUserButton.addEventListener("click",()=>{
     const formData = new FormData();
@@ -52,3 +132,4 @@ SearchUserButton.addEventListener("click",()=>{
             showToast("Connection error. Please check backend.", "error");
         });
 });
+

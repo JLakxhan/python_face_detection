@@ -48,17 +48,6 @@ def login_view(request):
             return redirect('home')
         else:
             messages.error(request, "Invalid email or password!")
-            # return redirect('login')
-        # Authenticate user
-        # user = MONGO_USER_COLLECTION.find_one({"email": email, "password": password})
-        # if user:
-        #      # Save user ID in session
-        #       # Debugging
-        #     messages.success(request, "Login successful!")
-        #     return redirect("home")  # Redirect to home page
-        # else:
-        #     print("Invalid credentials.")  # Debugging
-        #     messages.error(request, "Invalid email or password!")
     return render(request, "login.html")
 
 
@@ -71,6 +60,8 @@ def dashboard_view(request):
 def userboard_view(request):
     return render(request, "user.html")
 
+def logout_view(request):
+    return render(request, "login.html")
 
 def search_user(request):
     roleId = request.POST['role']
