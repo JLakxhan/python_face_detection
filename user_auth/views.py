@@ -68,4 +68,68 @@ def home_view(request):
 def dashboard_view(request):
     return render(request, "dashboard.html")
 
+def userboard_view(request):
+    return render(request, "user.html")
 
+
+def search_user(request):
+    roleId = request.POST['role']
+    if roleId != '-1':
+        users = CustomUser.objects.order_by('id').all().values('id', 'username','email','first_name','last_name','is_superuser').filter(is_superuser=roleId)
+    else:
+        users = CustomUser.objects.order_by('id').all().values('id', 'username','email','first_name','last_name','is_superuser')
+
+    return JsonResponse({'code': 1, 'data': list(users)})
+
+def create(request): 
+    if request.user.is_authenticated and request.user.is_superuser:
+        username = request.POST['username']
+        fname = request.POST['fname']
+        lname = request.POST['lname']
+        roleId = request.POST['role']
+        email = request.POST['email']
+        password = request.POST['password'] 
+
+        usernameExist = CustomUser.objects.filter(username=username).count()
+        if usernameExist == 0 :
+            create_user = CustomUser(
+                email=email,
+                first_name=fname,
+                last_name=lname,
+                username=username,
+                password=password,
+                is_superuser=roleId
+            )
+            create_user.set_password(password)
+            create_user.save()
+
+            return JsonResponse({'code': 1, 'data': "User created successfully!!"})
+        else:
+            return JsonResponse({'code': 1, 'data': "Username already exists!!"})
+
+def editUser(request):
+    id = request.POST['id']
+    email = request.POST['email']
+    fname = request.POST['fname']
+    lname = request.POST['lname']
+    roleId = request.POST['role']
+
+    user = CustomUser.objects.get(pk=id)
+    user.email = email
+    user.first_name = fname
+    user.last_name = lname
+    user.email = email
+    user.is_superuser = roleId
+
+    user.save()
+
+    return JsonResponse({'code': 1,'data':"User updated successfully!!"})
+
+def resetPasswordAdminApi(request):
+    id = request.POST['id']
+    password = request.POST['password']
+    user = CustomUser.objects.get(pk=id)
+    user.set_password(password)
+    user.save()
+
+    return JsonResponse({'code': 1,'data':"Password updated successfully!!"})

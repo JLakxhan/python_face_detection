@@ -25,3 +25,22 @@ class Prediction(models.Model):
 
     def __str__(self):
         return self.id
+
+class PredictionResult(models.Model):
+    id = models.AutoField(primary_key=True)
+    shift = models.ForeignKey(
+        Shift, on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    avg_prediction_suprise = models.DecimalField(max_digits=5, decimal_places=2)
+    avg_prediction_sad = models.DecimalField(max_digits=5, decimal_places=2)
+    avg_prediction_suprise = models.DecimalField(max_digits=5, decimal_places=2)
+    avg_prediction_netural = models.DecimalField(max_digits=5, decimal_places=2)
+    avg_prediction_happy = models.DecimalField(max_digits=5, decimal_places=2)
+    avg_prediction_fearful = models.DecimalField(max_digits=5, decimal_places=2)
+    avg_prediction_disgusted = models.DecimalField(max_digits=5, decimal_places=2)
+    avg_prediction_angry = models.DecimalField(max_digits=5, decimal_places=2)
+    avg_prediction_stress = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return str(self.id)

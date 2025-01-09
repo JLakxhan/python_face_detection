@@ -15,6 +15,7 @@
             <ul>
                 <li><a href="/home">Home</a></li>
                 <li><a href="/dashboard/">Dashboard</a></li>
+                <li><a href="/userboard/">UserTable</a></li>
             </ul>
         </div>
     </nav>
@@ -22,9 +23,9 @@
     <div class="container">
         <h1>Real-Time Emotion Detection</h1>
         <div class="content">
-            <p>Click the button below to start detecting emotions in real-time.</p>
+            <p id="shift-status">Click the button below to start detecting emotions in real-time.</p>
             <button id="start-btn">Start Shift</button>
-            <button id="end-btn">End Shift</button>
+            <button id="end-btn" class="button">End Shift</button>
             <div id="camera-feed">
                 <video id="video" autoplay hidden></video>
             </div>

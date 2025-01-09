@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emotion and Stress Detection</title>
+    <title>UserTable</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 <body>
@@ -19,21 +19,27 @@
         </div>
     </nav>
     <div class="container">
-        <h1>Shift Dashboard</h1>
+        <h1>User Dashboard</h1>
         <div class="content">
-            <input type="date"  id="search-date"/>
-            <button id="search-btn">Search</button>
-            <div id="data-table" class="data-table">
-                
+            <select class="form-control form-control-lg" name="role" id="roleFilter">
+                <option value="-1">All Roles</option>
+                <option value="1">Admin</option>
+                <option value="0">User</option>
+            </select> 
+            <button id="search-user-btn">Search</button>
+            <div id="data-table" class="data-table">               
                 <table border="1">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body">
+                    <tbody id="table-user-body">
                     </tbody>
                 </table>
             </div>
@@ -42,6 +48,6 @@
     <script type="text/javascript">
         const csrfToken = '{{ csrf_token }}';
     </script>
-    <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/user.js' %}"></script>
 </body>
 </html>

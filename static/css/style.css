@@ -12,12 +12,12 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(90deg,#303030,#40c278);
+    background: linear-gradient(90deg,#303030,#1d1879);
 }
 
 .container{
     position: relative;
-    width: 850px;
+    width: 900px;
     height: 550px;
     background-color: #ffffff;
     border-radius: 30px;
@@ -38,7 +38,7 @@ h1 {
 button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #4c86af;
+    background-color: #1d1879;
     color: white;
     border: none;
     border-radius: 5px;
@@ -46,7 +46,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #10538e;
 }
 
 #camera-feed {
@@ -74,7 +74,7 @@ video {
     right: 0;
     width: 50%;
     height: 100%;
-    background: #f0f2f8;
+    background: #ffffff;
     display: flex;
     align-items: center;
     color: #333;
@@ -161,22 +161,6 @@ form{
 .container p{
     font-size: 14.5px;
     margin:15px 0;
-}
-
-.social-icons{
-    display: flex;
-    justify-content: center;
-}
-
-.social-icons a{
-    display: inline-flex;
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    font-size: 24px;
-    color: #333;
-    text-decoration: none;
-    margin: 0 8px;
 }
 
 .toggle-box{
