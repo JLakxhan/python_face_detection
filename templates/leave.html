@@ -25,7 +25,7 @@
         </div>
     </nav>
     <div class="container">
-        <h1>Shift</h1>
+        <h1>Leave</h1>
         <div class="content">
             
             <div class="group">
@@ -35,21 +35,23 @@
                     </g>
                 </svg>
                 <input id="search-date" placeholder="Search" type="date" class="input">
-                <button id="search-btn" class="button">Search</button>
+                <button id="search-btn-leave" class="button">Search</button>
             </div>
             <!-- <input type="date"  id="search-date"/> -->
             <!-- <button id="search-btn" class="button">Search</button> -->
-            <div id="data-table" class="data-table">
-                
+            <div id="data-table" class="data-table">              
                 <table border="1">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Leave Type</th>
+                            <th>Leavs Left</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body">
+                    <tbody id="table-body-leave">
                     </tbody>
                 </table>
             </div>
@@ -59,6 +61,6 @@
         const csrfToken = '{{ csrf_token }}';
     </script>
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="{% static 'js/dash.js' %}"></script>
+    <script src="{% static 'js/leave.js' %}"></script>
 </body>
 </html>

@@ -337,3 +337,126 @@ video {
   top: 20px;
   left: 80%;
 }
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    font-size: 16px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .navdiv {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo a {
+    font-size: 22px;
+  }
+
+  li a {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  .form-control {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  #roleFilter {
+    max-width: 100%;
+  }
+
+  button.btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  #camera-feed {
+    width: 100%;
+    height: auto;
+  }
+
+  .data-table table {
+    width: 90%;
+    margin: 10px auto;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .button-btn {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .create-user-div {
+    top: 10px;
+    left: auto;
+    right: 10px;
+    position: relative;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    font-size: 14px;
+  }
+
+  .logo a {
+    font-size: 18px;
+  }
+
+  li a {
+    font-size: 14px;
+    margin-right: 5px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  .form-control {
+    font-size: 12px;
+  }
+
+  button.btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .modal-content {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .data-table table {
+    width: 100%;
+  }
+
+  .create-user-div {
+    top: 0;
+    left: auto;
+    right: 0;
+    margin: 10px;
+    position: relative;
+  }
+}
+

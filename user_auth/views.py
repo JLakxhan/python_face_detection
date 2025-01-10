@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from user_auth.mongodb import MONGO_USER_COLLECTION
 from .mongodb import MONGO_SHIFT_COLLECTION
-from bson.objectid import ObjectId  # Optional, for MongoDB ID handling
+from bson.objectid import ObjectId  
 from django.http import JsonResponse
 import requests
 import datetime
 from .models import CustomUser
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from .models import ApplyLeave
 
 # Registration View
 def register_view(request):
@@ -16,24 +17,11 @@ def register_view(request):
         username = request.POST.get("username")
         email = request.POST.get("email")
         password = request.POST.get("password")
-
-        # # Check if user already exists
-        # if MONGO_USER_COLLECTION.find_one({"email": email}):
-        #     messages.error(request, "User already exists!")
-        #     return redirect("register")
-        
-        # Insert new user into MongoDB
-        # MONGO_USER_COLLECTION.insert_one({
-        #     "username": username,
-        #     "email": email,
-        #     "password": password
-        # })
-
         user = CustomUser.objects.create_user(username=username, email=email, password=password)
         user.save()
         messages.success(request, "Registration successful! Please login.")
         return redirect("login")
-    return render(request, "login.html")  # Use same template for login/register
+    return render(request, "login.html")  
 
 # Login View
 def login_view(request):
@@ -65,6 +53,12 @@ def logout_view(request):
 
 def home_test(request):
     return render(request, "home2.html")
+
+def apply_leave_view(request):
+    return render(request, "applyleave.html")
+
+def leave_view(request):
+    return render(request, "leave.html")
 
 def search_user(request):
     roleId = request.POST['role']
@@ -107,6 +101,36 @@ def create_user(request):
         else:
             return JsonResponse({'code': 1, 'data': "Username already exists!!"})
 
+#User creating leave
+def create_leave(request):
+    if request.user.is_authenticated:
+        leave_type = request.POST.get('leave_type', '')
+        start_date = request.POST.get('start_date', '')
+        end_date = request.POST.get('end_date', '')
+
+        # Validate leave type
+        if leave_type not in dict(ApplyLeave.LEAVE_TYPE_CHOICES).keys():
+            return JsonResponse({'code': 0, 'data': "Invalid leave type selected!"})
+
+        # Check for valid dates
+        if not start_date or not end_date:
+            return JsonResponse({'code': 0, 'data': "Start date and end date are required!"})
+
+        # Save the leave entry
+        try:
+            leave_entry = ApplyLeave.objects.create(
+                leave_type=leave_type,
+                total_leave=15,  # Default value for total leave
+                start_date=start_date,
+                end_date=end_date
+            )
+            return JsonResponse({'code': 1, 'data': "Leave created successfully!", 'leave_id': leave_entry.id})
+        except Exception as e:
+            return JsonResponse({'code': 0, 'data': f"Error creating leave: {str(e)}"})
+
+    return JsonResponse({'code': 0, 'data': "Unauthorized access!"})
+
+
 def editUser(request):
     id = request.POST['id']
     email = request.POST['email']
@@ -133,3 +157,19 @@ def resetPasswordAdminApi(request):
     user.save()
 
     return JsonResponse({'code': 1,'data':"Password updated successfully!!"})
+
+# def search_user_leave(request):
+#     roleId = request.POST['role']
+#     if roleId != '-1':
+#        userslist = CustomUser.objects.order_by('id').all().values('id', 'username','email','first_name','last_name','is_superuser')
+#        userslist = list(userslist)
+#        users = []
+#        for us in userslist:
+#            if ((roleId == "1" and us['is_superuser'] == True) or (roleId == "0" and us['is_superuser'] == False)):
+#                users.append(us)
+                
+#     else:
+#         users = CustomUser.objects.order_by('id').all().values('id', 'username','email','first_name','last_name','is_superuser')
+#         users = list(users)
+
+#     return JsonResponse({'code': 1, 'data': users})

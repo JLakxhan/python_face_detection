@@ -1,229 +1,383 @@
 body {
-    background: #121212;
-    padding: 0;
-  }
-  
-  .navbar {
-    background: #a29f9f;
-    font-family: sans-serif;
-    padding-right: 15px;
-    padding-left: 15px;
-    border-radius: 15px;
-    font-size: 20px;
-    font-weight: 400;
-  }
-  .navdiv {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .logo a {
-    font-size: 28px;
-    font-weight: 500;
-    color: black;
-    text-decoration: none;
-  }
-  
-  li {
-    list-style: none;
-    display: inline-block;
-  }
-  
-  li a {
-    color: black;
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 25px;
-    text-decoration: none;
-  }
-  
-  li a:hover {
-    color: #00a97f;
-  }
-  .container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  h1 {
-    color: #dbdbdb;
-    font-size: 50px;
-    font-family: sans-serif;
-  }
-  
-  p {
-    color: #fffbfb;
-    font-size: 25px;
-    font-family: Cambria;
-  }
-  
-  
-  .group {
-    display: flex;
-    margin-left:500px ;
-    align-items: center;
-    gap: 2.5rem;
-    width: 500px;/* Add a small gap between the input and button */
-  }
-  
-  .input {
+  background: #121212;
+  padding: 0;
+}
 
-    line-height: 28px;
-    padding: 0 1rem;
-    width: auto; /* Adjust width to fit the content better */
-    flex: 1; /* Optional: Makes the input take available space */
-    padding-left: 2.5rem;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    outline: none;
-    background-color: #D9E8D8;
-    color: #0d0c22;
-    box-shadow: 0 0 5px #C1D9BF, 0 0 0 10px #f5f5f5eb;
-    transition: .3s ease;
+.navbar {
+  background: #a29f9f;
+  font-family: sans-serif;
+  padding-right: 15px;
+  padding-left: 15px;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: 400;
+}
+.navdiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo a {
+  font-size: 28px;
+  font-weight: 500;
+  color: black;
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+  display: inline-block;
+}
+
+li a {
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 25px;
+  text-decoration: none;
+}
+
+li a:hover {
+  color: #00a97f;
+}
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  color: #dbdbdb;
+  font-size: 50px;
+  font-family: sans-serif;
+}
+
+p {
+  color: #fffbfb;
+  font-size: 25px;
+  font-family: Cambria;
+}
+
+.group {
+  display: flex;
+  margin-left: 500px;
+  align-items: center;
+  gap: 2.5rem;
+  width: 500px; /* Add a small gap between the input and button */
+}
+
+.input {
+  line-height: 28px;
+  padding: 0 1rem;
+  width: auto; /* Adjust width to fit the content better */
+  flex: 1; /* Optional: Makes the input take available space */
+  padding-left: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #d9e8d8;
+  color: #0d0c22;
+  box-shadow: 0 0 5px #c1d9bf, 0 0 0 10px #f5f5f5eb;
+  transition: 0.3s ease;
+}
+
+.input::placeholder {
+  color: #777;
+}
+
+.icon {
+  position: absolute;
+  left: 530px;
+  fill: #777;
+  width: 1rem;
+  height: 1rem;
+}
+
+button {
+  --color: #00a97f;
+  padding: 0.8em 1.5em;
+  background-color: transparent;
+  border-radius: 0.3em;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.5s;
+  font-weight: 400;
+  font-size: 17px;
+  border: 1px solid;
+  font-family: inherit;
+  text-transform: uppercase;
+  color: var(--color);
+  z-index: 1;
+}
+
+.button::before,
+.button::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  background-color: var(--color);
+  transition: 1s ease;
+}
+
+.button::before {
+  top: -1em;
+  left: -1em;
+}
+
+.button::after {
+  left: calc(100% + 1em);
+  top: calc(100% + 1em);
+}
+
+.button:hover::before,
+.button:hover::after {
+  height: 410px;
+  width: 410px;
+}
+
+.button:hover {
+  color: rgb(10, 25, 30);
+}
+
+.button:active {
+  filter: brightness(0.8);
+}
+
+#camera-feed {
+  margin: 20px auto;
+  width: 640px;
+  height: 480px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  /* overflow: hidden; */
+}
+
+video {
+  width: 100%;
+  height: 100%;
+}
+
+#emotion-output {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #555;
+}
+
+.data-table {
+  display: flex;
+  height: 100vh;
+}
+
+.data-table table {
+  border-collapse: collapse;
+  height: fit-content;
+  width: 80%;
+  margin-top: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.data-table th {
+  background-color: #4caf50;
+  color: white;
+  font-size: 20px;
+  text-align: left;
+  padding: 15px;
+}
+
+.data-table td {
+  font-size: 18px; /* Font size for table data */
+  padding: 10px; /* Padding for table data */
+  text-align: left; /* Align text to the left */
+  border: 1px solid #ddd; /* Add borders to table cells */
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Zebra striping for rows */
+}
+
+.data-table tr:hover {
+  background-color: #4caf50; /* Highlight row on hover */
+}
+
+.button-btn {
+  background-color: #00a97f;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.button-btn:hover {
+  background-color: #dc0202;
+}
+
+.button-btn a {
+  color: wheat;
+  font-weight: 400;
+}
+
+.heading-form {
+  text-align: center;
+  font-weight: 900;
+  font-size: 30px;
+  color: rgb(16, 137, 211);
+  padding-bottom: 25px;
+  margin-left: 35%;
+}
+.applyleave-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.apply-leave-form {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 520px;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.apply-leave-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.apply-leave-form input,
+.apply-leave-form select {
+  margin-bottom: 25px;
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.apply-leave-form span {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.submit-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 95%;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    font-size: 16px;
+    padding-right: 10px;
+    padding-left: 10px;
   }
-  
-  
-  .input::placeholder {
-    color: #777;
+
+  .navdiv {
+    flex-direction: column;
+    text-align: center;
   }
-  
-  .icon {
-    position: absolute;
-    left: 530px;
-    fill: #777;
-    width: 1rem;
-    height: 1rem;
-  }
-  
-  button {
-    --color: #00a97f;
-    padding: 0.8em 1.5em;
-    background-color: transparent;
-    border-radius: 0.3em;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.5s;
-    font-weight: 400;
-    font-size: 17px;
-    border: 1px solid;
-    font-family: inherit;
-    text-transform: uppercase;
-    color: var(--color);
-    z-index: 1;
-  }
-  
-  .button::before,
-  .button::after {
-    content: "";
-    display: block;
-    width: 50px;
-    height: 50px;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    border-radius: 50%;
-    z-index: -1;
-    background-color: var(--color);
-    transition: 1s ease;
-  }
-  
-  .button::before {
-    top: -1em;
-    left: -1em;
-  }
-  
-  .button::after {
-    left: calc(100% + 1em);
-    top: calc(100% + 1em);
-  }
-  
-  .button:hover::before,
-  .button:hover::after {
-    height: 410px;
-    width: 410px;
-  }
-  
-  .button:hover {
-    color: rgb(10, 25, 30);
-  }
-  
-  .button:active {
-    filter: brightness(0.8);
-  }
-  
-  #camera-feed {
-    margin: 20px auto;
-      width: 640px;
-      height: 480px;
-      border: 2px solid #ddd;
-      border-radius: 5px;
-    /* overflow: hidden; */
-  }
-  
-  video {
-    width: 100%;
-    height: 100%;
-  }
-  
-  #emotion-output {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #555;
-  }
-  
-  .data-table {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .data-table table {
-    border-collapse: collapse;
-    height: fit-content;
-    width: 80%;
-    margin-top: 20px;
-    margin-right: auto;
+
+  .group {
     margin-left: auto;
-    background-color: #ffffff;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    margin-right: auto;
+    flex-direction: column;
+    width: 90%;
+    gap: 1rem;
   }
-  
-  .data-table th {
-    background-color: #4caf50;
-    color: white;
-    font-size: 20px;
-    text-align: left;
+
+  .input {
+    width: 100%;
+    padding-left: 1rem;
+  }
+
+  .icon {
+    left: 10%;
+  }
+
+  #camera-feed {
+    width: 100%;
+    height: auto;
+  }
+
+  .data-table table {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .apply-leave-form {
+    width: 90%;
     padding: 15px;
   }
-  
-  .data-table td {
-    font-size: 18px; /* Font size for table data */
-    padding: 10px; /* Padding for table data */
-    text-align: left; /* Align text to the left */
-    border: 1px solid #ddd; /* Add borders to table cells */
-  }
-  
-  .data-table tr:nth-child(even) {
-    background-color: #f2f2f2; /* Zebra striping for rows */
-  }
-  
-  .data-table tr:hover {
-    background-color: #4caf50; /* Highlight row on hover */
+
+  .submit-btn {
+    width: 100%;
   }
 
-  .button-btn{
-    background-color: #00a97f;
-    border-radius: 10px;
-    padding: 10px;
+  .heading-form {
+    margin-left: 0;
+    font-size: 24px;
+    padding-bottom: 15px;
   }
-  
-  .button-btn:hover{
-    background-color: #dc0202;
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    font-size: 14px;
   }
-  
-  .button-btn a{
-    color: wheat;
-    font-weight: 400;
+
+  .logo a {
+    font-size: 20px;
   }
-  
-  
+
+  li a {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  .applyleave-container {
+    margin-top: 20px;
+  }
+
+  .apply-leave-form input,
+  .apply-leave-form select {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .submit-btn {
+    font-size: 14px;
+  }
+}
