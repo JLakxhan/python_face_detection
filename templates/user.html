@@ -13,17 +13,21 @@
         <div class="navdiv">
             <div class="logo"><a href="#">EmotionDetection</a> </div>
             <ul>
-                <li><a href="/home">Home</a></li>
+                <li><a href="/home">Dashboard</a></li>
                 <li><a href="/dashboard/">Shifts</a></li>
                 {% if request.user.is_superuser %}
-                <li><a href="/userboard/">UserTable</a></li>
+                <li><a href="/userboard/">Users</a></li>
                 {% endif %}
                 <button id="logot-btn" class="button-btn"><a>Logout</a></button>
             </ul>
         </div>
     </nav>
+    <div class="create-user-div">
+        <button id="create-user" class="button" onclick="openModal('createUserModal')">Create User</button>
+    </div>
     <div class="container">
-        <h1>User Dashboard</h1>
+        <h1>Users</h1>
+        
         <div class="content">
             <select class="form-control form-control-lg" name="role" id="roleFilter">
                 <option value="-1">All Roles</option>
@@ -49,6 +53,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Create User Modal -->
+    <div id="createUserModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Create User</h3>
+            <form id="createUserForm">
+                <label for="createUsername">Username:</label>
+                <input type="text" id="createUsername" name="username" required>
+                <label for="createEmail">Email:</label>
+                <input type="text" id="createEmail" name="email" required>
+                <label for="createFname">Firstname:</label>
+                <input type="text" id="createFname" name="fname" required>
+                <label for="createLname">Lastname:</label>
+                <input type="text" id="createLname" name="lname" required>
+                <label for="createPassword">Password:</label>
+                <input type="password" id="createPassword" name="password" required>
+                <label for="createRole">Role:</label>
+                <select id="createRole" name="role">
+                    <option value="1">Admin</option>
+                    <option value="0">User</option>
+                </select>
+                <button type="button" onclick="submitCreateUser()">OK</button>
+                <button type="button" onclick="closeModal('createUserModal')">Cancel</button>
+            </form>
+        </div>
+    </div>
+    
+
 
     <!-- Edit Modal -->
     <div id="editModal" class="modal" style="display: none;">

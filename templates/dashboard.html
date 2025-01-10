@@ -13,10 +13,10 @@
         <div class="navdiv">
             <div class="logo"><a href="#">EmotionDetection</a> </div>
             <ul>
-                <li><a href="/home">Home</a></li>
+                <li><a href="/home">Dashboard</a></li>
                 <li><a href="/dashboard/">Shifts</a></li>
                 {% if request.user.is_superuser %}
-                <li><a href="/userboard/">UserTable</a></li>
+                <li><a href="/userboard/">Users</a></li>
                 {% endif %}
                 <button id="logot-btn" class="button-btn"><a>Logout</a></button>
             </ul>

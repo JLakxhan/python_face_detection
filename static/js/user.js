@@ -1,5 +1,7 @@
 const SearchUserButton = document.getElementById("search-user-btn");
 const LogoutButton = document.getElementById("logot-btn");
+const CreateButton = document.getElementById("");
+
 
 const showToast = (message, type = "success") => {
     Toastify({
@@ -63,9 +65,10 @@ function submitEditUser() {
             showToast(data.data);
             closeModal('editModal');
             // Refresh the table data
-            document.getElementById('search-user-btn').click();
+            // document.getElementById('search-user-btn').click();
         } else {
             showToast(data.data, "error");
+            showToast("Conection Error in the backend", "error");
         }
     });
 }
@@ -88,9 +91,42 @@ function submitResetPassword() {
             closeModal('resetModal');
         } else {
             showToast(data.data, "error");
+            showToast("Conection Error in the backend", "error");
         }
     });
 }
+
+// Submit create user data
+function submitCreateUser() {
+    const formData = new FormData();
+    formData.append('username', document.getElementById('createUsername').value);
+    formData.append('email', document.getElementById('createEmail').value);
+    formData.append('password', document.getElementById('createPassword').value);
+    formData.append('role', document.getElementById('createRole').value);
+
+    fetch("/users/create/", {
+        method: "POST",
+        headers: { "X-CSRFToken": csrfToken },
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === 1) {
+            showToast(data.data);
+            closeModal('createUserModal');
+            // Refresh the table data
+            // document.getElementById('search-user-btn').click();
+        } else {
+            showToast(data.data, "error");
+            showToast("Connection error. Please check backend.", "error");
+        }
+    })
+    .catch(error => {
+        console.error("Fetch Error:", error);
+        showToast("Connection error. Please check backend.", "error");
+    });
+}
+
 
 SearchUserButton.addEventListener("click",()=>{
     const formData = new FormData();

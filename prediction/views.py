@@ -334,12 +334,10 @@ def analyze_emotion_and_stress(request):
         # Return the prediction results
         return JsonResponse({
             "code": 1,
-            
-            # "emotion_predictions" : stress_predictions[0][1]
-            # "emotion": emotion,
-            # "emotion_confidence": emotion_confidence,
-            # "stress": stress,
-            # "stress_confidence": stress_confidence
+            "emotion": emotion,
+            "emotion_confidence": emotion_confidence,
+            "stress": stress,
+            "stress_confidence": stress_confidence,
         })
 
     except Exception as e:

@@ -63,31 +63,40 @@ def userboard_view(request):
 def logout_view(request):
     return render(request, "login.html")
 
+def home_test(request):
+    return render(request, "home2.html")
+
 def search_user(request):
     roleId = request.POST['role']
     if roleId != '-1':
-        users = CustomUser.objects.order_by('id').all().values('id', 'username','email','first_name','last_name','is_superuser').filter(is_superuser=roleId)
+       userslist = CustomUser.objects.order_by('id').all().values('id', 'username','email','first_name','last_name','is_superuser')
+       userslist = list(userslist)
+       users = []
+       for us in userslist:
+           if ((roleId == "1" and us['is_superuser'] == True) or (roleId == "0" and us['is_superuser'] == False)):
+               users.append(us)
+                
     else:
         users = CustomUser.objects.order_by('id').all().values('id', 'username','email','first_name','last_name','is_superuser')
+        users = list(users)
 
-    return JsonResponse({'code': 1, 'data': list(users)})
+    return JsonResponse({'code': 1, 'data': users})
 
-def create(request): 
+def create_user(request): 
     if request.user.is_authenticated and request.user.is_superuser:
         username = request.POST['username']
-        fname = request.POST['fname']
-        lname = request.POST['lname']
-        roleId = request.POST['role']
         email = request.POST['email']
-        password = request.POST['password'] 
-
+        fname = request.POST.get('fname', '')
+        lname = request.POST.get('lname', '')
+        password = request.POST['password']
+        roleId = request.POST['role']
         usernameExist = CustomUser.objects.filter(username=username).count()
         if usernameExist == 0 :
             create_user = CustomUser(
+                username=username,
                 email=email,
                 first_name=fname,
                 last_name=lname,
-                username=username,
                 password=password,
                 is_superuser=roleId
             )

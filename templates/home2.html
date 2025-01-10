@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotion Detection</title>
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dash.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
@@ -30,10 +30,10 @@
             <button id="start-btn" class="button">Start Shift</button>
             <button id="end-btn" class="button">End Shift</button>
             <div id="camera-feed">
-                <video id="video" autoplay hidden></video>
+                <video id="video" autoplay></video>
             </div>
             <div id="emotion-output">
-                <!-- <p>Current Emotion: <span id="emotion-text">N/A</span></p> -->
+                <p>Current Emotion: <span id="emotion-text">N/A</span></p>
             </div>
         </div>
     </div>

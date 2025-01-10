@@ -46,7 +46,7 @@ const sendAveragePredictions = () => {
                     // Create and show the notification
                     new Notification("Work Management System", {
                         body: data.message,
-                        icon: "../../assets/noti.png"  // Optional: icon for the notification
+                        icon: "{% static 'assets/noti.png' %}"  // Optional: icon for the notification
                     });
                 } else if (Notification.permission !== "denied") {
                     // Request permission from the user if not granted yet
@@ -115,11 +115,12 @@ startButton.addEventListener("click", () => {
                                 .then((response) => response.json())
                                 .then((data) => {
                                     if (data.error) {
-                                        emotionText.textContent = "Error: Unable to detect.";
+                                        emotionText.textContent = "Unable to detect.";
                                         console.error("Backend Error:", data.error);
                                         showToast("Error detecting emotion.", "error");
                                     } else {
-                                        emotionText.textContent = `${data.emotion} (${data.emotion_confidence}%)`;
+                                        emotionText.textContent = `${data.emotion} percentage ${data.emotion_confidence}% and ${data.stress} level ${data.stress_confidence}% `; ;
+                                        
 
                                         // Add predictions to buffer
                                         predictionBuffer.push({
