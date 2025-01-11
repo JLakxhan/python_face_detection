@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from user_auth.mongodb import MONGO_USER_COLLECTION
 from .mongodb import MONGO_SHIFT_COLLECTION
@@ -49,6 +49,39 @@ def create_user_view(request):
         return redirect('login') 
     
     return render(request, "createUser.html")
+
+def edit_user_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login') 
+    
+    user = get_object_or_404(CustomUser, id= request.GET.get('id'))
+
+    formatted_date_joined = user.joined_date.strftime('%Y-%m-%d') if user.joined_date else None
+    formatted_dob = user.date_of_birth.strftime('%Y-%m-%d') if user.date_of_birth else None
+    # You can access all the parameters (fields) of the user
+    user_data = {
+        'id' : user.id,
+        'employee_id' : user.employee_id,
+        'bio': user.bio,
+        'first_name' : user.first_name,
+        'last_name' : user.last_name,
+        'joined_date' : formatted_date_joined,
+        'date_of_birth' : formatted_dob,
+        'contact_number' : user.contact_number,
+        'address' : user.address,
+        'personal_email' : user.personal_email,
+        'identity_number' : user.identity_number,
+        'passport_number' : user.passport_number,
+        'emergency_contact_name' : user.emergency_contact_name,
+        'emergency_contact_number' : user.emergency_contact_number,
+        'emergency_contact_relationship' : user.emergency_contact_relationship,
+        'leave_annual' : user.leave_annual,
+        'leave_casual' : user.leave_casual,
+        'leave_medical': user.leave_medical,
+        'leave_other': user.leave_other,
+        # Add any other fields you want here
+    }
+    return render(request, "editUser.html", {'employee': user_data})
 
 def home_view(request):
     if not request.user.is_authenticated:
@@ -158,6 +191,30 @@ def create_user(request):
             return JsonResponse({'code': 1, 'data': "User created successfully!!"})
         else:
             return JsonResponse({'code': 1, 'data': "Username already exists!!"})
+
+def edit_user(request): 
+    if request.user.is_authenticated and request.user.is_superuser:
+        user = CustomUser.objects.get(pk=request.POST['id'])
+        user.first_name = request.POST.get('fname', '')
+        user.last_name = request.POST.get('lname', '')
+        user.employee_id = request.POST['employee_id']
+        user.joined_date = request.POST['joined_date']
+        user.bio = request.POST['bio']
+        user.address = request.POST['address']
+        user.contact_number = request.POST['contact_number']
+        user.date_of_birth = request.POST['date_of_birth']
+        user.emergency_contact_name = request.POST['emergency_contact_name']
+        user.emergency_contact_number = request.POST['emergency_contact_number']
+        user.emergency_contact_relationship = request.POST['emergency_contact_relationship']
+        user.identity_number = request.POST['identity_number']
+        user.passport_number = request.POST['passport_number']
+        user.personal_email = request.POST['personal_email']
+        user.leave_annual = request.POST['leave_annual']
+        user.leave_casual = request.POST['leave_casual']
+        user.leave_medical = request.POST['leave_medical']
+        user.leave_other = request.POST['leave_other']
+        user.save()
+        return JsonResponse({'code': 1, 'data': "User updated successfully!!"})
 
 #User creating leave
 def create_leave(request):

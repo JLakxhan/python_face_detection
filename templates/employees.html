@@ -26,6 +26,7 @@
                     <th>Emergency Contact Name</th>
                     <th>Emergency Contact Number</th>
                     <th>Emergency Contact Relationship</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="table-body">  
@@ -48,6 +49,7 @@
                         <td>{{employee.emergency_contact_name}}</td>
                         <td>{{employee.emergency_contact_number}}</td>
                         <td>{{employee.emergency_contact_relationship}}</td>
+                        <td><button type='button' class='btn btn-warning btn-sm '><a href="/edit-user?id={{employee.id}}" target="_blank" style="color: inherit; text-decoration: none;">Edit</a></button></td>
                     </tr>
                 {% endfor %}
             </tbody>

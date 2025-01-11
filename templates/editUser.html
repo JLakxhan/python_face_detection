@@ -1,0 +1,234 @@
+{% extends 'includes/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h1>Edit Employee</h1>
+    <form  class="employee-form">
+        {% csrf_token %}
+        
+        <div class="create-employee-form">
+            <div class="form-field">
+                <label for="first_name">First Name <span style="color: red;">*</span></label>
+                <input type="text" id="first_name" value="{{employee.first_name}}" placeholder="Enter first name" />
+            </div>
+            <div class="form-field">
+                <label for="last_name">Last Name <span style="color: red;">*</span></label>
+                <input type="text" id="last_name" value="{{employee.last_name}}" placeholder="Enter last name" />
+            </div>
+
+            <div class="form-field">
+                <label for="leave_annual">Leave Balance Annual <span style="color: red;">*</span></label>
+                <input type="integer" min="0" id="leave_annual" value="{{employee.leave_annual}}"  />
+            </div>
+            <div class="form-field">
+                <label for="leave_casual">Leave Balance Casual <span style="color: red;">*</span></label>
+                <input type="integer" min="0" id="leave_casual" value="{{employee.leave_casual}}"  />
+            </div>
+            <div class="form-field">
+                <label for="leave_medical">Leave Balance Medical <span style="color: red;">*</span></label>
+                <input type="integer" min="0" id="leave_medical" value="{{employee.leave_medical}}"  />
+            </div>
+            <div class="form-field">
+                <label for="leave_other">Leave Balance Other <span style="color: red;">*</span></label>
+                <input type="integer" min="0" id="leave_other" value="{{employee.leave_other}}"  />
+            </div>
+            
+            <!-- Row 3 -->
+            <div class="form-field">
+                <label for="employee_id">Employee ID <span style="color: red;">*</span></label>
+                <input type="text" id="employee_id" value="{{employee.employee_id}}" placeholder="Enter employee ID" />
+            </div>
+            <div class="form-field">
+                <label for="joined_date">Joined Date <span style="color: red;">*</span></label>
+                <input type="date" id="joined_date" value="{{employee.joined_date}}" />
+            </div>
+            <!-- Row 4 -->
+            
+           
+            <div class="form-field">
+                <label for="date_of_birth">Date of Birth <span style="color: red;">*</span></label>
+                <input type="date" id="date_of_birth" value="{{employee.date_of_birth}}" />
+            </div>
+            <!-- Row 5 -->
+            <div class="form-field">
+                <label for="bio">Designation <span style="color: red;">*</span></label>
+                <input type="text" id="bio" value="{{employee.bio}}" placeholder="Enter designation" />
+            </div>
+           
+            
+            <!-- Row 6 -->
+            <div class="form-field">
+                <label for="contact_number">Contact Number <span style="color: red;">*</span></label>
+                <input type="text" id="contact_number" value="{{employee.contact_number}}" placeholder="Enter contact number" />
+            </div>
+            <!-- Row 10 -->
+            <div class="form-field">
+                <label for="personal_email">Personal Email <span style="color: red;">*</span></label>
+                <input type="email" id="personal_email" value="{{employee.personal_email}}" placeholder="Enter personal email" />
+            </div>
+            <div class="form-field">
+                <label for="address">Address</label>
+                <input type="text" id="address" value="{{employee.address}}" placeholder="Enter address" />
+            </div>
+            
+            
+            <!-- Row 7 -->
+            <div class="form-field">
+                <label for="emergency_contact_name">Emergency Contact Name</label>
+                <input type="text" id="emergency_contact_name" value="{{employee.emergency_contact_name}}" placeholder="Enter emergency contact name" />
+            </div>
+            <div class="form-field">
+                <label for="emergency_contact_number">Emergency Contact Number</label>
+                <input type="text" id="emergency_contact_number" value="{{employee.emergency_contact_number}}" placeholder="Enter emergency contact number" />
+            </div>
+            
+            <!-- Row 8 -->
+            <div class="form-field">
+                <label for="emergency_contact_relationship">Emergency Contact Relationship</label>
+                <input type="text" id="emergency_contact_relationship" value="{{employee.emergency_contact_relationship}}" placeholder="Enter relationship" />
+            </div>
+            <div class="form-field">
+                <label for="identity_number">Identity Number</label>
+                <input type="text" id="identity_number" value="{{employee.identity_number}}" placeholder="Enter identity number" />
+            </div>
+            
+            <!-- Row 9 -->
+            
+            <div class="form-field">
+                <label for="passport_number">Passport Number</label>
+                <input type="text" id="passport_number" value="{{employee.passport_number}}" placeholder="Enter passport number" />
+            </div>
+            
+            
+        
+            <!-- Action Buttons -->
+            <div class="form-actions">
+                <button class="button-dark" type="button" onclick="createUser()">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+ .create-employee-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns per row */
+    gap: 15px; /* Reduced gap for better compactness */
+    padding: 20px;
+    max-width: 900px; /* Wider form to fit all fields */
+    margin: 0 auto; /* Center the form */
+    background: #ffffff; /* Light background for clarity */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Depth for the form */
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field label {
+    font-size: 14px;
+    color: #293963;
+    margin-bottom: 5px;
+}
+
+.form-field input,
+.form-field select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-actions {
+    grid-column: span 2; /* Spans the entire row */
+    text-align: right;
+    margin-top: 20px;
+}
+
+
+
+@media (max-width: 768px) {
+    .create-employee-form {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
+    }
+    .form-actions {
+        text-align: center;
+    }
+}
+
+</style>
+<script>
+    function createUser(){
+        let url = window.location.href;
+
+        // Create a URLSearchParams object with the query string
+        let urlParams = new URLSearchParams(window.location.search);
+
+        const formData = new FormData();
+        first_name = $("#first_name").val()
+        last_name = $("#last_name").val()
+        
+        employee_id = $("#employee_id").val()
+        joined_date = $("#joined_date").val()
+        bio = $("#bio").val()
+        address = $("#address").val()
+        contact_number = $("#contact_number").val()
+        date_of_birth = $("#date_of_birth").val()
+        emergency_contact_name = $("#emergency_contact_name").val()
+        emergency_contact_number = $("#emergency_contact_number").val()
+        emergency_contact_relationship = $("#emergency_contact_relationship").val()
+        identity_number = $("#identity_number").val()
+        passport_number = $("#passport_number").val()
+        personal_email = $("#personal_email").val()
+        leave_annual = $("#leave_annual").val()
+        leave_casual = $("#leave_casual").val()
+        leave_medical = $("#leave_medical").val()
+        leave_other = $("#leave_other").val()
+
+        if(first_name == '' || last_name == '' || employee_id == '' || joined_date == '' || bio == ''  || contact_number == '' || date_of_birth == ''  || personal_email == '' || leave_annual == '' || leave_casual == '' || leave_medical == '' || leave_other == ''){
+            showToast("Please enter all the required fields.", "error");
+        }else{
+            formData.append('id', urlParams.get('id'));
+            formData.append('fname', first_name);
+            formData.append('lname', last_name);
+            formData.append('employee_id', employee_id);
+            formData.append('joined_date', joined_date);
+            formData.append('bio', bio);
+            formData.append('address', address);
+            formData.append('contact_number', contact_number);
+            formData.append('date_of_birth', date_of_birth);
+            formData.append('emergency_contact_name', emergency_contact_name);
+            formData.append('emergency_contact_number', emergency_contact_number);
+            formData.append('emergency_contact_relationship', emergency_contact_relationship);
+            formData.append('identity_number', identity_number);
+            formData.append('passport_number', passport_number);
+            formData.append('personal_email', personal_email);
+            formData.append('leave_annual', leave_annual);
+            formData.append('leave_casual', leave_casual);
+            formData.append('leave_medical', leave_medical);
+            formData.append('leave_other', leave_other);
+
+            fetch("/users/edit/", {
+                method: "POST",
+                headers: { "X-CSRFToken": csrfToken },
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 1) {
+                    showToast(data.data);
+                } else {
+                    showToast(data.data, "error");
+                    showToast("Connection error. Please check backend.", "error");
+                }
+            })
+            .catch(error => {
+                console.error("Fetch Error:", error);
+                showToast("Connection error. Please check backend.", "error");
+            });
+        }
+    }
+</script>
+{% endblock %}
