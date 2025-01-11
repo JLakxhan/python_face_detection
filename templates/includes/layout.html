@@ -1,0 +1,93 @@
+{% load static %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Detection</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
+
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navdiv">
+            <div class="logo"><a href="/home">EmotionDetection</a> </div>
+            <ul>
+                <li><a href="/home">Dashboard</a></li>
+                <li><a href="/shift">Shift</a></li>
+                <li><a href="/shift-history/">Shift History</a></li>
+                <li><a href="/applyleave/">Apply Leave</a></li>
+                <li><a href="/leave/">Leave</a></li>
+                {% if request.user.is_superuser %}
+                <li><a href="/userboard/">Users</a></li>
+                <li><a href="/create-user/">Create Employee</a></li>
+                <li><a href="/employees/">Employees</a></li>
+                {% endif %}
+                <button id="logot-btn" class="button-btn button-dark"><a href="/logout/" style="color: inherit; text-decoration: none;">Logout</a></button>
+            </ul>
+        </div>
+    </nav>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="text/javascript">
+        const csrfToken = '{{ csrf_token }}';
+        function addTimeAndFormat(utcDateStr) {
+        if (!utcDateStr) return ''; // Handle null or empty times
+        
+        const utcDate = new Date(utcDateStr); // Parse the UTC date
+        // Check if the input is a valid date
+        if (isNaN(utcDate.getTime())) {
+            return ''; // Return empty if the date is invalid
+        }
+        
+        // Add 5 hours and 30 minutes to the date
+        utcDate.setHours(utcDate.getHours() + 0); // Add 5 hours
+        utcDate.setMinutes(utcDate.getMinutes() + 0); // Add 30 minutes
+        
+        // Format the date to 'Y-m-d H:i:s' in the local timezone (Asia/Colombo)
+        const options = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false, // Use 24-hour format
+        };
+
+        // Use toLocaleString with the Asia/Colombo timezone
+        const localTime = utcDate.toLocaleString('en-GB', {
+            ...options,
+            timeZone: 'Asia/Colombo', // Force timezone to Asia/Colombo
+        });
+
+        // Format the result to 'Y-m-d H:i:s'
+        const [datePart, timePart] = localTime.split(', ');
+
+        // Change '/' to '-' and reformat to 'Y-m-d' (ISO format)
+        const formattedDate = datePart.split('/').reverse().join('-');  // Reverse and join with '-'
+
+        // Join date and time parts with a space
+        return `${formattedDate} ${timePart}`;
+    }
+    const showToast = (message, type = "success") => {
+        Toastify({
+            text: message,
+            duration: 6000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            backgroundColor: type === "success" ? "green" : "red",
+            stopOnFocus: true,
+        }).showToast();
+    };
+    </script>
+    {% block content %}
+    {% endblock %}
+    
+</body>
+</html>

@@ -1,49 +1,53 @@
+{% extends 'includes/layout.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emotion Detection</title>
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="navdiv">
-            <div class="logo"><a href="#">EmotionDetection</a> </div>
-            <ul>
-                <li><a href="/home">Dashboard</a></li>
-                <li><a href="/dashboard/">Shifts</a></li>
-                {% if request.user.is_superuser %}
-                <li><a href="/userboard/">Employee</a></li>
-                {% endif %}
-                <li><a href="/applyleave/">Apply Leave</a></li>
-                <li><a href="/leave/">Leave</a></li>
-                <button id="logot-btn" class="button-btn"><a>Logout</a></button>
-            </ul>
-        </div>
-    </nav>
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <h1>Welcome to the HRM System</h1>
+        <p>View and manage shifts effortlessly.</p>
+    </div>
 
-    <div class="container">
-        <h1>Dashboard</h1>
-        <div class="content">
-            <p id="shift-status">Click the button below to start detecting emotions in real-time.</p>
-            <button id="start-btn" class="button">Start Shift</button>
-            <button id="end-btn" class="button">End Shift</button>
-            <div id="camera-feed">
-                <video id="video" autoplay hidden></video>
-            </div>
-            <div id="emotion-output">
-                <!-- <p>Current Emotion: <span id="emotion-text">N/A</span></p> -->
-            </div>
+    <div class="employee-grid">
+        <!-- Employee Image and Personal Details Section -->
+        <div class="employee-card image-section">
+            <img src="{% static 'img/default-image.webp' %}" alt="Employee Image">
+            <h3>{{user.first_name}} {{user.last_name}}</h3>
+            <p>{{user.bio}}</p>
         </div>
     </div>
-    <script type="text/javascript">
-        const csrfToken = '{{ csrf_token }}';
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="{% static 'js/home.js' %}"></script>
-    
-</body>
-</html>
+    <br>
+    <div class="employee-grid">
+        <div class="employee-card details-section">
+            <h2>Personal Details</h2>
+            <ul class="personal-details">
+                <li><strong>Employee ID:</strong> {{user.employee_id}}</li>
+                <li><strong>Joined Date:</strong> {{user.joined_date}}</li>
+                <li><strong>Date of Birth:</strong> {{user.date_of_birth}}</li>
+                <li><strong>Contact Number:</strong> {{user.contact_number}}</li>
+                <li><strong>Address:</strong> {{user.address}}</li>
+                <li><strong>Personal Email:</strong> {{user.personal_email}}</li>
+                <li><strong>Identity Number:</strong> {{user.identity_number}}</li>
+                <li><strong>Passport Number:</strong> {{user.passport_number}}</li>
+            </ul>
+        </div>
+    </div>
+    <br>
+    <div class="employee-grid">
+        <div class="employee-card details-section">
+            <h2>Emergency Contact</h2>
+            <ul class="personal-details">
+                <li><strong>Contact Name:</strong> {{user.emergency_contact_name}}</li>
+                <li><strong>Contact Number:</strong> {{user.emergency_contact_number}}</li>
+                <li><strong>Relationship:</strong> {{user.emergency_contact_relationship}}</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const csrfToken = '{{ csrf_token }}';
+</script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

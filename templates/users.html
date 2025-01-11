@@ -1,0 +1,214 @@
+{% extends 'includes/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h1 class="title">Users</h1>
+    
+    <!-- Filters Section -->
+    <div class="filters">
+        <div class="filter-item">
+            <label for="date-filter">Role:</label>
+            <select class="input-field" name="role" id="roleFilter">
+                <option value="-1">All Roles</option>
+                <option value="1">Admin</option>
+                <option value="0">User</option>
+            </select> 
+        </div>
+        <div class="filter-item">
+            <label for="date-filter"><br></label>
+            <button class="button" id="search-user-btn">Search</button>
+        </div>
+        
+    </div>
+    
+    <!-- Table Section -->
+    <div class="table-container">
+        <table class="table-styled" id="shift-table">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th style="text-align: center;">Role</th>
+                    <th style="text-align: center;">Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">  
+            </tbody>
+        </table>
+    </div>
+</div>
+
+ <!-- Edit Modal -->
+ <div id="editModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h3>Edit User</h3>
+        <form id="editUserForm">
+            <input type="hidden" id="editUserId">
+            <label for="editEmail">Email:</label>
+            <input type="email" id="editEmail" required>
+            <label for="editFname">First Name:</label>
+            <input type="text" id="editFname" required>
+            <label for="editLname">Last Name:</label>
+            <input type="text" id="editLname" required>
+            <label for="editRole">Role:</label>
+            <select id="editRole">
+                <option value="1">Admin</option>
+                <option value="0">User</option>
+            </select>
+            <button type="button" onclick="submitEditUser()">OK</button>
+            <button type="button" onclick="closeModal('editModal')">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div id="resetModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h3>Reset Password</h3>
+        <form id="resetPasswordForm">
+            <input type="hidden" id="resetUserId">
+            <label for="newPassword">New Password:</label>
+            <input type="password" id="newPassword" required>
+            <button type="button" onclick="submitResetPassword()">OK</button>
+            <button type="button" onclick="closeModal('resetModal')">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready( function () {
+        $('#shift-table').hide()
+    } );
+
+    const SearchUserButton = document.getElementById("search-user-btn");
+    SearchUserButton.addEventListener("click",()=>{
+        $('#shift-table').hide();
+        if ($.fn.dataTable.isDataTable('#shift-table')) {
+            $('#shift-table').DataTable().destroy();
+        }
+        document.getElementById('table-body').innerHTML = '';
+        const formData = new FormData();
+        formData.append("role",  document.getElementById("roleFilter").value);
+
+        fetch("/user/search/", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken },
+            body: formData,
+        })
+        .then((response) => response.json())
+            .then((data) => {
+                if (data.code == 1) {
+                    let rows = '';  // Initialize rows before the loop
+
+                    data.data.forEach(addRow);
+                    
+                    function addRow(item) { 
+                        rows += "<tr>";
+                        rows += "<td style='text-align: center;'>" + item.id + "</td>";
+                        rows += "<td style='text-align: left;'>" + item.username + "</td>";
+                        rows += "<td style='text-align: left;'>" + item.email + "</td>";
+                        rows += "<td style='text-align: left;'>" + item.first_name + " " + item.last_name +  "</td>";
+                        rows += "<td style='text-align: center;'>" + (item.is_superuser == 1 ? 'Admin' : 'User') + "</td>";
+                        rows += "<td class='ignore'>"; 
+                                rows += "<button type='button' onclick='setEditModel(`"+item.id+"`,`"+item.username+"`,`"+item.email+"`,`"+item.first_name+"`,`"+item.last_name+"`,`"+item.is_superuser+"`)' class='btn btn-warning btn-sm ' data-bs-toggle='modal' data-bs-target='#editModel'> Edit </button> ";
+                                rows += "<button type='button' onclick='setPasswordModel(`"+item.id+"`,`"+item.username+"`)' class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#passwordModel'> Reset Password </button> ";
+                            rows +="</td>";
+                        rows += "</tr>";
+                    }
+                    document.getElementById('table-body').innerHTML = rows;
+
+                    $('#shift-table').DataTable({
+                        responsive: true
+                    });
+                    $('#shift-table').show()
+                } else {
+                    showToast(data.message, "error");
+                }
+            })
+            .catch((error) => {
+                console.error("Fetch Error:", error);
+                showToast("Connection error. Please check backend.", "error");
+            });
+    });
+
+    // Set data in Edit Modal
+    function setEditModel(id, username, email, first_name, last_name, is_superuser) {
+        document.getElementById('editUserId').value = id;
+        document.getElementById('editEmail').value = email;
+        document.getElementById('editFname').value = first_name;
+        document.getElementById('editLname').value = last_name;
+        document.getElementById('editRole').value = (is_superuser == 1 || is_superuser == true || is_superuser == 'true') ? '1' : '0';
+        openModal('editModal');
+    }
+
+    // Set data in Reset Modal
+    function setPasswordModel(id, username) {
+        document.getElementById('resetUserId').value = id;
+        openModal('resetModal');
+    }
+
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    function submitEditUser() {
+        const formData = new FormData();
+        formData.append('id', document.getElementById('editUserId').value);
+        formData.append('email', document.getElementById('editEmail').value);
+        formData.append('fname', document.getElementById('editFname').value);
+        formData.append('lname', document.getElementById('editLname').value);
+        formData.append('role', document.getElementById('editRole').value);
+
+        fetch("/user/edit/", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.code === 1) {
+                showToast(data.data);
+                closeModal('editModal');
+                $('#search-user-btn').click()
+                // Refresh the table data
+                // document.getElementById('search-user-btn').click();
+            } else {
+                showToast(data.data, "error");
+                showToast("Conection Error in the backend", "error");
+            }
+        });
+    }
+
+    // Submit reset password data
+    function submitResetPassword() {
+        const formData = new FormData();
+        formData.append('id', document.getElementById('resetUserId').value);
+        formData.append('password', document.getElementById('newPassword').value);
+
+        fetch("/user/reset/", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.code === 1) {
+                showToast(data.data);
+                closeModal('resetModal');
+            } else {
+                showToast(data.data, "error");
+                showToast("Conection Error in the backend", "error");
+            }
+        });
+    }
+
+
+</script>
+{% endblock %}

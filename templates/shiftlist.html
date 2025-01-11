@@ -1,0 +1,87 @@
+{% extends 'includes/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h1 class="title">Shift History</h1>
+    
+    <!-- Filters Section -->
+    <div class="filters">
+        <div class="filter-item">
+            <label for="date-filter">Date:</label>
+            <input type="date" id="date-filter" class="input-field">
+        </div>
+        <div class="filter-item">
+            <label for="date-filter"><br></label>
+            <button class="button" id="filter-btn">Search</button>
+        </div>
+        
+    </div>
+    
+    <!-- Table Section -->
+    <div class="table-container">
+        <table class="table-styled" id="shift-table">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">ID</th>
+                    <th style="text-align: center;">Start Time</th>
+                    <th style="text-align: center;">End Time</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">  
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready( function () {
+        $('#shift-table').hide()
+    } );
+
+    const SearchShiftButton = document.getElementById("filter-btn");
+    SearchShiftButton.addEventListener("click",()=>{
+        $('#shift-table').hide()
+        if ($.fn.dataTable.isDataTable('#shift-table')) {
+            $('#shift-table').DataTable().destroy();
+        }
+        document.getElementById('table-body').innerHTML = '';
+        const formData = new FormData();
+        formData.append("date",  document.getElementById("date-filter").value);
+
+        fetch("/shift/search/", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken },
+            body: formData,
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.code == 1) {
+                let rows = '';  // Initialize rows before the loop
+
+                data.data.forEach(addRow);
+                
+                function addRow(item) { 
+                    rows += "<tr>";
+                    rows += "<td style='text-align: center;'>" + item.id + "</td>";
+                    rows += "<td style='text-align: center;'>" +addTimeAndFormat(item.start_time) + "</td>";
+                    rows += "<td style='text-align: center;'>" + (item.end_time != null ? addTimeAndFormat(item.end_time) : '') + "</td>";
+                    rows += "</tr>";
+                }
+                document.getElementById('table-body').innerHTML = rows;
+                
+                $('#shift-table').DataTable({
+                    responsive: true
+                });
+                $('#shift-table').show()
+            } else {
+                showToast(data.message, "error");
+            }
+        })
+        .catch((error) => {
+            console.error("Fetch Error:", error);
+            showToast("Connection error. Please check backend.", "error");
+        });
+    });
+</script>
+{% endblock %}

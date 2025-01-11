@@ -1,0 +1,65 @@
+{% extends 'includes/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h1 class="title">Employees</h1>
+    
+    <!-- Table Section -->
+    <div class="table-container">
+        <table class="table-styled" id="shift-table">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Employee ID</th>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Leave Balance Annual</th>
+                    <th>Leave Balance Casual</th>
+                    <th>Leave Balance Medical</th>
+                    <th>Leave Balance Other</th>
+                    <th>Joined Date</th>
+                    <th>Date of Birth</th>
+                    <th>Contact Number</th>
+                    <th>Personal Email</th>
+                    <th>Address</th>
+                    <th>Identity Number</th>
+                    <th>Passport Number</th>
+                    <th>Emergency Contact Name</th>
+                    <th>Emergency Contact Number</th>
+                    <th>Emergency Contact Relationship</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">  
+                {% for employee in employees %}
+                    <tr>
+                        <td style="text-align: center;">{{employee.employee_id}}</td>
+                        <td>{{employee.first_name}} {{employee.last_name}}</td>
+                        <td>{{employee.bio}}</td>
+                        <td>{{employee.joined_date}}</td>
+                        <td>{{employee.leave_annual}}</td>
+                        <td>{{employee.leave_casual}}</td>
+                        <td>{{employee.leave_medical}}</td>
+                        <td>{{employee.leave_other}}</td>
+                        <td>{{employee.date_of_birth}}</td>
+                        <td>{{employee.contact_number}}</td>
+                        <td>{{employee.personal_email}}</td>
+                        <td>{{employee.address}}</td>
+                        <td>{{employee.identity_number}}</td>
+                        <td>{{employee.passport_number}}</td>
+                        <td>{{employee.emergency_contact_name}}</td>
+                        <td>{{employee.emergency_contact_number}}</td>
+                        <td>{{employee.emergency_contact_relationship}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready( function () {
+        $('#shift-table').DataTable({
+            responsive: true,
+            scrollX: true
+        });
+    } );
+</script>
+{% endblock %}

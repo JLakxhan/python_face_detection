@@ -1,0 +1,43 @@
+{% extends 'includes/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h1 class="title">Leaves</h1>
+    
+    <!-- Table Section -->
+    <div class="table-container">
+        <table class="table-styled" id="shift-table">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">ID</th>
+                    <th style="text-align: center;">Leave Type</th>
+                    <th style="text-align: center;">Start Date</th>
+                    <th style="text-align: center;">End Date</th>
+                    <th style="text-align: center;">No of Days</th>
+                    <th style="text-align: center;">Applied At</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">  
+                {% for leave in leaves %}
+                    <tr>
+                        <td style="text-align: center;">{{leave.id}}</td>
+                        <td style="text-align: center;">{{leave.leave_type}}</td>
+                        <td style="text-align: center;">{{leave.start_date}}</td>
+                        <td style="text-align: center;">{{leave.end_date}}</td>
+                        <td style="text-align: center;">{{leave.total_days}}</td>
+                        <td style="text-align: center;">{{leave.created_at}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready( function () {
+        $('#shift-table').DataTable({
+            responsive: true,
+            scrollX: true
+        });
+    } );
+</script>
+{% endblock %}
