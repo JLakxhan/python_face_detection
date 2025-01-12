@@ -12,16 +12,16 @@ from django.contrib.auth.decorators import login_required
 from .models import ApplyLeave
 
 # Registration View
-def register_view(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        user = CustomUser.objects.create_user(username=username, email=email, password=password)
-        user.save()
-        messages.success(request, "Registration successful! Please login.")
-        return redirect("login")
-    return render(request, "login.html")  
+# def register_view(request):
+#     if request.method == "POST":
+#         username = request.POST.get("username")
+#         email = request.POST.get("email")
+#         password = request.POST.get("password")
+#         user = CustomUser.objects.create_user(username=username, email=email, password=password)
+#         user.save()
+#         messages.success(request, "Registration successful! Please login.")
+#         return redirect("login")
+#     return render(request, "login.html")  
 
 # Login View
 def login_view(request):
@@ -99,8 +99,6 @@ def shift_history_view(request):
 def userboard_view(request):
     return render(request, "users.html")
 
-def logout_view(request):
-    return render(request, "login.html")
 
 def home_test(request):
     return render(request, "home2.html")
@@ -295,19 +293,3 @@ def resetPasswordAdminApi(request):
     user.save()
 
     return JsonResponse({'code': 1,'data':"Password updated successfully!!"})
-
-# def search_user_leave(request):
-#     roleId = request.POST['role']
-#     if roleId != '-1':
-#        userslist = CustomUser.objects.order_by('id').all().values('id', 'username','email','first_name','last_name','is_superuser')
-#        userslist = list(userslist)
-#        users = []
-#        for us in userslist:
-#            if ((roleId == "1" and us['is_superuser'] == True) or (roleId == "0" and us['is_superuser'] == False)):
-#                users.append(us)
-                
-#     else:
-#         users = CustomUser.objects.order_by('id').all().values('id', 'username','email','first_name','last_name','is_superuser')
-#         users = list(users)
-
-#     return JsonResponse({'code': 1, 'data': users})

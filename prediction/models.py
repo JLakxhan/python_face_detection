@@ -32,7 +32,6 @@ class PredictionResult(models.Model):
         Shift, on_delete=models.CASCADE
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    avg_prediction_suprise = models.DecimalField(max_digits=5, decimal_places=2)
     avg_prediction_sad = models.DecimalField(max_digits=5, decimal_places=2)
     avg_prediction_suprise = models.DecimalField(max_digits=5, decimal_places=2)
     avg_prediction_netural = models.DecimalField(max_digits=5, decimal_places=2)

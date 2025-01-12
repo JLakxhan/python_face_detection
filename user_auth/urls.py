@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home_view, register_view, login_view,userboard_view,search_user,editUser,resetPasswordAdminApi,logout_view,home_test,create_user,apply_leave_view,leave_view,create_leave, shift_view, shift_history_view, create_user_view,employees_view,logout_view, leaves_view, edit_user_view, edit_user
+from .views import home_view, login_view,userboard_view,search_user,editUser,resetPasswordAdminApi,logout_view,home_test,create_user,apply_leave_view,leave_view,create_leave, shift_view, shift_history_view, create_user_view,employees_view,logout_view, leaves_view, edit_user_view, edit_user
 
 urlpatterns = [ 
     path("shift-history/", shift_history_view, name="shift_history"),
@@ -12,7 +12,6 @@ urlpatterns = [
     path("leaves/", leaves_view, name="leaves"),
     path("logout/", logout_view, name="logout"),
     path('', login_view, name='login'),
-    path("login/", logout_view, name="logout_view"),
     
     path("home2/", home_test, name="home_test"),
 

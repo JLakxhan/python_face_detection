@@ -113,6 +113,9 @@ def analyze_notification(request):
         traceback.print_exc()
         return JsonResponse({"code": 0, "error": str(e)}, status=500)
 
+def prediction_view(request):
+    predictions = PredictionResult.objects.filter().values('id', 'created_at', 'avg_prediction_sad', 'avg_prediction_suprise', 'avg_prediction_netural', 'avg_prediction_happy','avg_prediction_fearful','avg_prediction_disgusted','avg_prediction_angry','avg_prediction_stress')
+    return render(request, "prediction.html", {'predictions': predictions})
 
 
 def analyze_avg_emotion(request):
@@ -131,10 +134,6 @@ def analyze_avg_emotion(request):
         except Shift.DoesNotExist:
             return JsonResponse({"code": 0, "message": "Shift not found."}, status=404)
 
-        # Define the 10-minute time window
-        # end_time = now()
-        # start_time = end_time - timedelta(minutes=2)
-
         one_hour_ago = now() - timedelta(hours=1)
         # Fetch predictions within the time window
         predictions = Prediction.objects.filter(
@@ -145,16 +144,6 @@ def analyze_avg_emotion(request):
         if not predictions.exists():
             return JsonResponse({"code": 0, "message": "No predictions found in the last 10 minutes."})
 
-        # averages = predictions.aggregate(
-        #     avg_suprise=Avg("suprise"),
-        #     avg_sad=Avg("sad"),
-        #     avg_netural=Avg("netural"),
-        #     avg_happy=Avg("happy"),
-        #     avg_fearful=Avg("fearful"),
-        #     avg_disgusted=Avg("disgusted"),
-        #     avg_angry=Avg("angry"),
-        #     avg_stress=Avg("stress"),
-        # )
 
         sum_suprise = 0.0
         sum_sad = 0.0
@@ -189,10 +178,6 @@ def analyze_avg_emotion(request):
             "avg_angry": round(sum_angry / count, 2) if count else 0.0,
             "avg_stress": round(sum_stress / count, 2) if count else 0.0,
         }
-        # return JsonResponse({"mes":"dcdcd"})  
-        # averages = {key: convert_decimal(value) for key, value in averages.items()}
-        # return JsonResponse({"averages": averages})
-
         
         # Save the averages to the PredictionResult model
         result = PredictionResult.objects.create(

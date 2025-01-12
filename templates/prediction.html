@@ -1,0 +1,93 @@
+{% extends 'includes/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+       <!-- Report Button Section -->
+       <div class="button-container" style="text-align: right; margin-bottom: 20px;">
+        <button id="generate-report" class="mui-btn">Generate Report</button>
+    </div>
+    <h1 class="title">Prediction</h1> 
+    <!-- Table Section -->
+    <div class="table-container">
+        <table class="table-styled" id="shift-table">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">ID</th>
+                    <th style="text-align: center;">Created At</th>
+                    <th style="text-align: center;">Average Sad</th>
+                    <th style="text-align: center;">Average Surprise</th>
+                    <th style="text-align: center;">Average Neutral</th>
+                    <th style="text-align: center;">Average Happy</th>
+                    <th style="text-align: center;">Average Fearful</th>
+                    <th style="text-align: center;">Average Disgusted</th>
+                    <th style="text-align: center;">Average Angry</th>
+                    <th style="text-align: center;">Average Stress</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">  
+                {% for prediction in predictions %}
+                    <tr>
+                        <td style="text-align: center;">{{prediction.id}}</td>
+                        <td style="text-align: center;">{{prediction.created_at}}</td>
+                        <td style="text-align: center;">{{prediction.avg_prediction_sad}}</td>
+                        <td style="text-align: center;">{{prediction.avg_prediction_suprise}}</td>
+                        <td style="text-align: center;">{{prediction.avg_prediction_netural}}</td>
+                        <td style="text-align: center;">{{prediction.avg_prediction_happy}}</td>
+                        <td style="text-align: center;">{{prediction.avg_prediction_fearful}}</td>
+                        <td style="text-align: center;">{{prediction.avg_prediction_disgusted}}</td>
+                        <td style="text-align: center;">{{prediction.avg_prediction_angry}}</td>
+                        <td style="text-align: center;">{{prediction.avg_prediction_stress}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Initialize DataTable
+        $('#shift-table').DataTable({
+            responsive: true,
+            scrollX: true
+        });
+
+        // Generate PDF Report
+        $('#generate-report').on('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Add title
+            doc.text('Prediction Report', 14, 16);
+
+            // Get table data
+            const table = document.getElementById('shift-table');
+            const tableData = [];
+            const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent);
+            tableData.push(headers);
+            Array.from(table.querySelectorAll('tbody tr')).forEach(row => {
+                const rowData = Array.from(row.querySelectorAll('td')).map(td => td.textContent);
+                tableData.push(rowData);
+            });
+
+            // Add table to PDF
+            doc.autoTable({
+                head: [tableData[0]],
+                body: tableData.slice(1),
+                startY: 20,
+            });
+
+            // Save the PDF
+            doc.save('Prediction_Report.pdf');
+        });
+    });
+</script>
+
+<!-- Material UI -->
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<!-- <link href="https://cdn.jsdelivr.net/npm/muicss/dist/css/mui.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/muicss/dist/js/mui.min.js"></script> -->
+
+{% endblock %}
